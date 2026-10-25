@@ -1,0 +1,29 @@
+export const preparedTypedQuestion = 'What should I bring to my appointment?'
+
+export function answerQuestion(question:string, flagged:boolean, warningSigns:boolean, referenceCode?:'NEV'|'BCC'):string {
+  const q=question.toLowerCase().replace(/[^a-z0-9\s]/g,' ')
+  const review=flagged||warningSigns
+  if (referenceCode==='NEV' && q.trim().replace(/\s+/g,' ')==='what should i watch for in this mole') return 'Watch for a mole that changes size, shape, or color, looks different from your other spots, or starts itching or bleeding. Keep this photo for comparison. If you notice a change, arrange a dermatologist exam.'
+  if (/\b(bring|take|prepare|need)\b/.test(q) && /\b(appointment|visit|dermatologist|doctor)\b/.test(q)) return 'Bring this photo and your notes. Tell the dermatologist when you first noticed the spot and whether it has grown, changed, hurt, or bled. They can examine it and decide whether a biopsy is needed.'
+  if (/\b(emergency|urgent care|severe bleeding|bleeding won t stop)\b/.test(q)) return 'If bleeding will not stop or you feel seriously unwell, seek urgent medical care. For a changing or concerning spot, contact a dermatologist promptly. This app cannot triage emergencies.'
+  if (/\b(otc|over the counter|hydrocortisone|sunscreen|sun protection|medicine|medication)\b/.test(q)) return review
+    ? 'This spot needs a dermatologist exam. Do not put hydrocortisone or another over-the-counter treatment on an unexplained spot. For everyday sun protection, broad-spectrum SPF 30 or higher sunscreen is an option.'
+    : 'For a separate mild itchy rash on intact skin, over-the-counter 1 percent hydrocortisone cream can temporarily relieve itching. Follow the label and ask a clinician if it worsens or lasts more than 7 days. Do not use it to treat the photographed spot. Broad-spectrum SPF 30 or higher sunscreen helps protect skin from the sun.'
+  if (/\b(treat|treatment|remedy|remedies|cream|remove|home cure|medicine)\b/.test(q)) return 'Do not try to remove or treat an unexplained spot at home. Treatment depends on a clinician’s diagnosis. A dermatologist can explain the right options after examining it.'
+  if (/\b(biopsy|diagnos|confirm|for sure)\b/.test(q)) return 'A dermatologist examines the spot and decides whether a biopsy is needed. Looking at a biopsy under a microscope is how skin cancer is confirmed and its type identified.'
+  if (/\b(where|clinic|doctor|dermatologist|appointment|near me)\b/.test(q)) return 'Use Find a dermatologist below and enter your ZIP code. The listings include practice addresses and phone numbers. Call to confirm appointments and insurance.'
+  if (/\b(accurate|accuracy|trust|reliable|miss|wrong)\b/.test(q)) return 'The research model reached 90.4 percent accuracy on one held-out dataset, but it missed 4 of 14 melanoma photos. It has not been clinically validated. A no-flag result cannot rule out cancer.'
+  if (/\b(change|watch|monitor|look for|warning sign|bleed|itch|grow)\b/.test(q)) return 'Watch for a spot that is new, different, growing, changing color or shape, itching, or bleeding. If any of these happen, arrange a dermatologist examination even if the model did not raise a flag.'
+  if (/\b(when|how soon|next|do now|should i do|worried)\b/.test(q)) return review
+    ? 'Arrange a dermatologist examination soon. Bring this photo and your notes, and mention any growth, change, or bleeding. The clinician can decide whether a biopsy is needed.'
+    : 'Keep this photo as a baseline. If the spot is new, different, changing, bleeding, or worrying you, arrange a dermatologist examination. Do not treat no flag as an all-clear.'
+  if (/\b(what is|explain|tell me about)\b/.test(q) && /\b(bcc|basal cell carcinoma)\b/.test(q)) return 'Basal cell carcinoma, or BCC, is a type of skin cancer that often grows slowly and can look like a bump or a sore that does not heal. '+(referenceCode==='BCC'?'This exact research photo has a BCC dataset label, not a BCC prediction from the model.':'The model cannot tell whether your photo is BCC.')+' A dermatologist can decide what care is needed.'
+  if (/\b(what is|explain|tell me about)\b/.test(q) && /\b(nevus|mole)\b/.test(q)) return 'A nevus is the medical name for a mole. Most moles are harmless, but a new or changing mole should be examined. '+(referenceCode==='NEV'?'This exact research photo has a nevus dataset label, not a condition prediction from the model.':'The model cannot tell whether your photo is a nevus.')
+  if (referenceCode && /\b(is this|what is it|what is this|what condition|which type|bcc|basal cell|nevus|mole)\b/.test(q)) return referenceCode==='BCC'
+    ? 'This exact photo matches a PAD-UFES-20 research image labeled basal cell carcinoma by its biopsy record. That label comes from the dataset, not the model’s prediction. The model only raises a review flag; a dermatologist should assess any real spot of concern.'
+    : 'This exact photo matches a PAD-UFES-20 research image labeled nevus, or mole, by its biopsy record. That label comes from the dataset, not the model’s prediction. A no-flag result cannot clear a different spot.'
+  if (/\b(what is it|what is this|what condition|which type|melanoma|basal cell|squamous|bcc|nevus|cancer|safe|benign|mole|result|mean|flag)\b/.test(q)) return flagged
+    ? 'The model raised a cancer-review flag. It cannot say what the spot is or identify a cancer type. Many conditions can look alike; a dermatologist can examine it and decide whether a biopsy is needed.'
+    : 'The model did not raise a cancer-review flag. That does not tell us what the spot is, mean it is benign, or rule out cancer. A dermatologist can assess any spot that concerns you.'
+  return 'I can explain this result, warning signs, biopsy, next steps, or how to find a dermatologist. I cannot diagnose a spot or answer unrelated medical questions.'
+}

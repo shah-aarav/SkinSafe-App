@@ -1,0 +1,60 @@
+{
+  "dataset": "PAD-UFES-20",
+  "model": "DINOv2-S image embeddings plus self-reported clinical fields; logistic/SVM ensemble",
+  "clinical_features": "full",
+  "positive_labels": [
+    "BCC",
+    "MEL",
+    "SCC"
+  ],
+  "seed": 2026,
+  "threshold_policy": "max validation accuracy subject to cancer sensitivity >= 0.90",
+  "validation": {
+    "accuracy": 0.9,
+    "roc_auc": 0.9560618697399348,
+    "sensitivity_cancer": 0.9495412844036697,
+    "specificity_non_cancer": 0.8553719008264463,
+    "true_positive": 207,
+    "false_positive": 35,
+    "false_negative": 11,
+    "true_negative": 207,
+    "threshold": 0.4004852127991104
+  },
+  "test": {
+    "accuracy": 0.9041394335511983,
+    "roc_auc": 0.955251437055084,
+    "sensitivity_cancer": 0.9587155963302753,
+    "specificity_non_cancer": 0.8547717842323651,
+    "true_positive": 209,
+    "false_positive": 35,
+    "false_negative": 9,
+    "true_negative": 206,
+    "threshold": 0.4004852127991104
+  },
+  "test_by_diagnosis": {
+    "ACK": {
+      "n": 164,
+      "flagged": 32
+    },
+    "BCC": {
+      "n": 164,
+      "flagged": 161
+    },
+    "MEL": {
+      "n": 14,
+      "flagged": 10
+    },
+    "NEV": {
+      "n": 42,
+      "flagged": 1
+    },
+    "SCC": {
+      "n": 40,
+      "flagged": 38
+    },
+    "SEK": {
+      "n": 35,
+      "flagged": 2
+    }
+  }
+}

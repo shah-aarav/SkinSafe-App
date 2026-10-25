@@ -1,0 +1,122 @@
+{
+  "model": "DINOv2-B frozen embeddings plus unchanged full questionnaire",
+  "selection": "Head/weight ranked on 4-fold patient-grouped training CV; threshold selected on validation subject to >=90% cancer sensitivity.",
+  "caution": "Original test partition was previously opened. Test comparison is exploratory, not a fresh independent estimate.",
+  "cv_candidates": [
+    {
+      "candidate": "logistic",
+      "weight": 1.0,
+      "score": {
+        "accuracy": 0.8788977519941987,
+        "roc_auc": 0.9408789270963851,
+        "sensitivity_cancer": 0.9280245022970903,
+        "specificity_non_cancer": 0.8347107438016529,
+        "true_positive": 606,
+        "false_positive": 120,
+        "false_negative": 47,
+        "true_negative": 606,
+        "threshold": 0.4311957705373047
+      },
+      "melanoma": {
+        "n": 30,
+        "sensitivity": 0.6666666666666666
+      }
+    },
+    {
+      "candidate": "svm",
+      "weight": 0.0,
+      "score": {
+        "accuracy": 0.8520667150108775,
+        "roc_auc": 0.9224315408013027,
+        "sensitivity_cancer": 0.9081163859111792,
+        "specificity_non_cancer": 0.8016528925619835,
+        "true_positive": 593,
+        "false_positive": 144,
+        "false_negative": 60,
+        "true_negative": 582,
+        "threshold": 0.3684326760116761
+      },
+      "melanoma": {
+        "n": 30,
+        "sensitivity": 0.5333333333333333
+      }
+    },
+    {
+      "candidate": "equal_blend",
+      "weight": 0.5,
+      "score": {
+        "accuracy": 0.8716461203770849,
+        "roc_auc": 0.9356941262830166,
+        "sensitivity_cancer": 0.9019908116385911,
+        "specificity_non_cancer": 0.8443526170798898,
+        "true_positive": 589,
+        "false_positive": 113,
+        "false_negative": 64,
+        "true_negative": 613,
+        "threshold": 0.4655978852686523
+      },
+      "melanoma": {
+        "n": 30,
+        "sensitivity": 0.5666666666666667
+      }
+    }
+  ],
+  "chosen": "logistic",
+  "weight": 1.0,
+  "threshold": 0.4301010531378926,
+  "validation": {
+    "accuracy": 0.9021739130434783,
+    "roc_auc": 0.9613314125407537,
+    "sensitivity_cancer": 0.944954128440367,
+    "specificity_non_cancer": 0.8636363636363636,
+    "true_positive": 206,
+    "false_positive": 33,
+    "false_negative": 12,
+    "true_negative": 209,
+    "threshold": 0.4301010531378926
+  },
+  "validation_by_diagnosis": {
+    "BCC": {
+      "n": 172,
+      "sensitivity": 0.9593023255813954
+    },
+    "MEL": {
+      "n": 8,
+      "sensitivity": 0.75
+    },
+    "SCC": {
+      "n": 38,
+      "sensitivity": 0.9210526315789473
+    }
+  },
+  "test_reused": {
+    "accuracy": 0.8845315904139434,
+    "roc_auc": 0.945258669915109,
+    "sensitivity_cancer": 0.9174311926605505,
+    "specificity_non_cancer": 0.8547717842323651,
+    "true_positive": 200,
+    "false_positive": 35,
+    "false_negative": 18,
+    "true_negative": 206,
+    "threshold": 0.4301010531378926
+  },
+  "test_by_diagnosis": {
+    "BCC": {
+      "n": 164,
+      "sensitivity": 0.9512195121951219
+    },
+    "MEL": {
+      "n": 14,
+      "sensitivity": 0.5714285714285714
+    },
+    "SCC": {
+      "n": 40,
+      "sensitivity": 0.9
+    }
+  },
+  "samples": {
+    "train": 1379,
+    "validation": 460,
+    "test": 459
+  }
+}

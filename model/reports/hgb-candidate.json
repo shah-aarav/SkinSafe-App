@@ -1,0 +1,62 @@
+{
+  "model": "DINOv2-S frozen embeddings + HGB, full questionnaire",
+  "selection": "HGB was shortlisted in patient-grouped training CV. Threshold chosen on validation at >=90% cancer sensitivity.",
+  "caution": "The held-out split was previously opened for another model. This comparison is exploratory, not a fresh independent test.",
+  "validation": {
+    "accuracy": 0.9239130434782609,
+    "roc_auc": 0.9615967851997878,
+    "sensitivity_cancer": 0.9587155963302753,
+    "specificity_non_cancer": 0.8925619834710744,
+    "true_positive": 209,
+    "false_positive": 26,
+    "false_negative": 9,
+    "true_negative": 216,
+    "threshold": 0.5013871925502917
+  },
+  "test_reused": {
+    "accuracy": 0.8888888888888888,
+    "roc_auc": 0.9550610986333701,
+    "sensitivity_cancer": 0.926605504587156,
+    "specificity_non_cancer": 0.8547717842323651,
+    "true_positive": 202,
+    "false_positive": 35,
+    "false_negative": 16,
+    "true_negative": 206,
+    "threshold": 0.5013871925502917
+  },
+  "validation_roc_auc": 0.9615967851997878,
+  "test_roc_auc": 0.9550610986333701,
+  "validation_by_diagnosis": {
+    "BCC": {
+      "n": 172,
+      "sensitivity": 0.9593023255813954
+    },
+    "MEL": {
+      "n": 8,
+      "sensitivity": 1.0
+    },
+    "SCC": {
+      "n": 38,
+      "sensitivity": 0.9473684210526315
+    }
+  },
+  "test_by_diagnosis": {
+    "BCC": {
+      "n": 164,
+      "sensitivity": 0.9512195121951219
+    },
+    "MEL": {
+      "n": 14,
+      "sensitivity": 0.5
+    },
+    "SCC": {
+      "n": 40,
+      "sensitivity": 0.975
+    }
+  },
+  "samples": {
+    "train": 1379,
+    "validation": 460,
+    "test": 459
+  }
+}

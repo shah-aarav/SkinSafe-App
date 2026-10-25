@@ -1,0 +1,66 @@
+[
+  {
+    "file": "01-nevus.jpg",
+    "sourceImage": "PAT_917_1735_936.png",
+    "datasetLabel": "NEV",
+    "biopsied": true,
+    "split": "test",
+    "expectedFlag": false,
+    "answers": {"age":"59","region":"Back","diameter1":"4.0","diameter2":"3.0","itch":"No","growth":"Not sure","pain":"No","change":"Not sure","bleeding":"No","elevation":"No","gender":"Female","skinType":"II — Usually burns, tans a little","priorSkinCancer":"No","priorCancer":"Yes"}
+  },
+  {
+    "file": "02-bcc.jpg",
+    "sourceImage": "PAT_847_1610_165.png",
+    "datasetLabel": "BCC",
+    "biopsied": true,
+    "split": "test",
+    "expectedFlag": true,
+    "answers": {"age":"60","region":"Back","diameter1":"15.0","diameter2":"10.0","itch":"No","growth":"No","pain":"Yes","change":"No","bleeding":"No","elevation":"No","gender":"Male","skinType":"II — Usually burns, tans a little","priorSkinCancer":"No","priorCancer":"Yes"}
+  },
+  {
+    "file": "history-nevus.jpg",
+    "sourceImage": "PAT_793_1512_327.png",
+    "datasetLabel": "NEV",
+    "biopsied": true,
+    "split": "train",
+    "expectedFlag": false,
+    "answers": {"age":"36","region":"Back","diameter1":"7.0","diameter2":"4.0","itch":"Yes","growth":"No","pain":"No","change":"No","bleeding":"No","elevation":"No","gender":"Male","skinType":"IV — Rarely burns, tans easily","priorSkinCancer":"No","priorCancer":"Yes"}
+  },
+  {
+    "file": "history-bcc.jpg",
+    "sourceImage": "PAT_134_201_587.png",
+    "datasetLabel": "BCC",
+    "biopsied": true,
+    "split": "test",
+    "expectedFlag": true,
+    "answers": {"age":"62","region":"Nose","diameter1":"10.0","diameter2":"6.0","itch":"No","growth":"Yes","pain":"No","change":"No","bleeding":"No","elevation":"No","gender":"Male","skinType":"I — Always burns, never tans","priorSkinCancer":"Yes","priorCancer":"No"}
+  },
+  {
+    "file": "history-02.png", "sourceImage": "PAT_621_1183_56.png", "datasetLabel": "NEV", "biopsied": true, "split": "train",
+    "answers": {"age":"34","region":"Back","diameter1":"15.0","diameter2":"12.0","itch":"No","growth":"Not sure","pain":"No","change":"Not sure","bleeding":"No","elevation":"No","gender":"Male","skinType":"III — Sometimes burns, gradually tans","priorSkinCancer":"No","priorCancer":"No"}
+  },
+  {
+    "file": "history-03.png", "sourceImage": "PAT_333_1469_499.png", "datasetLabel": "NEV", "biopsied": true, "split": "val",
+    "answers": {"age":"51","region":"Back","diameter1":"6.0","diameter2":"4.0","itch":"No","growth":"Yes","pain":"No","change":"Yes","bleeding":"No","elevation":"No","gender":"Female","skinType":"III — Sometimes burns, gradually tans","priorSkinCancer":"Yes","priorCancer":"Yes"}
+  },
+  {
+    "file": "history-04.png", "sourceImage": "PAT_398_799_163.png", "datasetLabel": "NEV", "biopsied": true, "split": "val",
+    "answers": {"age":"21","region":"Thigh","diameter1":"8.0","diameter2":"3.0","itch":"No","growth":"Not sure","pain":"No","change":"Not sure","bleeding":"No","elevation":"No","gender":"Female","skinType":"III — Sometimes burns, gradually tans","priorSkinCancer":"No","priorCancer":"No"}
+  },
+  {
+    "file": "history-05.png", "sourceImage": "PAT_665_1262_774.png", "datasetLabel": "NEV", "biopsied": true, "split": "train",
+    "answers": {"age":"30","region":"Back","diameter1":"6.0","diameter2":"6.0","itch":"No","growth":"Not sure","pain":"No","change":"Not sure","bleeding":"No","elevation":"Yes","gender":"Female","skinType":"III — Sometimes burns, gradually tans","priorSkinCancer":"Yes","priorCancer":"Yes"}
+  },
+  {
+    "file": "history-06.png", "sourceImage": "PAT_439_859_283.png", "datasetLabel": "NEV", "biopsied": true, "split": "train",
+    "answers": {"age":"66","region":"Back","diameter1":"5.0","diameter2":"4.0","itch":"No","growth":"Not sure","pain":"No","change":"Not sure","bleeding":"No","elevation":"No","gender":"Female","skinType":"IV — Rarely burns, tans easily","priorSkinCancer":"Yes","priorCancer":"Yes"}
+  },
+  {
+    "file": "history-07.png", "sourceImage": "PAT_957_1814_77.png", "datasetLabel": "NEV", "biopsied": true, "split": "test",
+    "answers": {"age":"32","region":"Back","diameter1":"7.0","diameter2":"3.0","itch":"No","growth":"Not sure","pain":"No","change":"Not sure","bleeding":"No","elevation":"No","gender":"Female","skinType":"II — Usually burns, tans a little","priorSkinCancer":"Yes","priorCancer":"Yes"}
+  },
+  {
+    "file": "history-08.png", "sourceImage": "PAT_791_1487_906.png", "datasetLabel": "NEV", "biopsied": true, "split": "train",
+    "answers": {"age":"27","region":"Abdomen","diameter1":"5.0","diameter2":"4.0","itch":"No","growth":"Not sure","pain":"No","change":"Not sure","bleeding":"No","elevation":"No","gender":"Female","skinType":"III — Sometimes burns, gradually tans","priorSkinCancer":"No","priorCancer":"Yes"}
+  }
+]

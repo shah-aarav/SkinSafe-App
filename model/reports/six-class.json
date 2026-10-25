@@ -1,0 +1,154 @@
+{
+  "task": "Six-category lesion classification, not clinical diagnosis",
+  "dataset": "PAD-UFES-20",
+  "labels": [
+    "ACK",
+    "BCC",
+    "MEL",
+    "NEV",
+    "SCC",
+    "SEK"
+  ],
+  "split": "patient-separated, same split as binary model",
+  "selected_model": "svm_C_1.0",
+  "selection_metric": "validation macro F1, then validation accuracy",
+  "validation": {
+    "accuracy": 0.7369565217391304,
+    "balanced_accuracy": 0.663968545394494,
+    "macro_f1": 0.6884017440722802,
+    "per_class": {
+      "ACK": {
+        "precision": 0.7872340425531915,
+        "recall": 0.8345864661654135,
+        "f1-score": 0.8102189781021898,
+        "support": 133.0
+      },
+      "BCC": {
+        "precision": 0.7777777777777778,
+        "recall": 0.7325581395348837,
+        "f1-score": 0.7544910179640718,
+        "support": 172.0
+      },
+      "MEL": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1-score": 0.6666666666666666,
+        "support": 8.0
+      },
+      "NEV": {
+        "precision": 0.8461538461538461,
+        "recall": 0.7719298245614035,
+        "f1-score": 0.8073394495412844,
+        "support": 57.0
+      },
+      "SCC": {
+        "precision": 0.3125,
+        "recall": 0.39473684210526316,
+        "f1-score": 0.3488372093023256,
+        "support": 38.0
+      },
+      "SEK": {
+        "precision": 0.7358490566037735,
+        "recall": 0.75,
+        "f1-score": 0.7428571428571429,
+        "support": 52.0
+      },
+      "accuracy": 0.7369565217391304,
+      "macro avg": {
+        "precision": 0.7432524538480982,
+        "recall": 0.663968545394494,
+        "f1-score": 0.6884017440722802,
+        "support": 460.0
+      },
+      "weighted avg": {
+        "precision": 0.749673533938082,
+        "recall": 0.7369565217391304,
+        "f1-score": 0.740799231557952,
+        "support": 460.0
+      }
+    }
+  },
+  "exploratory_reused_test": {
+    "accuracy": 0.6949891067538126,
+    "balanced_accuracy": 0.6336575687185443,
+    "macro_f1": 0.651937204396201,
+    "per_class": {
+      "ACK": {
+        "precision": 0.8287671232876712,
+        "recall": 0.7378048780487805,
+        "f1-score": 0.7806451612903226,
+        "support": 164.0
+      },
+      "BCC": {
+        "precision": 0.7011494252873564,
+        "recall": 0.7439024390243902,
+        "f1-score": 0.7218934911242604,
+        "support": 164.0
+      },
+      "MEL": {
+        "precision": 1.0,
+        "recall": 0.5714285714285714,
+        "f1-score": 0.7272727272727273,
+        "support": 14.0
+      },
+      "NEV": {
+        "precision": 0.775,
+        "recall": 0.7380952380952381,
+        "f1-score": 0.7560975609756098,
+        "support": 42.0
+      },
+      "SCC": {
+        "precision": 0.2549019607843137,
+        "recall": 0.325,
+        "f1-score": 0.2857142857142857,
+        "support": 40.0
+      },
+      "SEK": {
+        "precision": 0.6,
+        "recall": 0.6857142857142857,
+        "f1-score": 0.64,
+        "support": 35.0
+      },
+      "accuracy": 0.6949891067538126,
+      "macro avg": {
+        "precision": 0.6933030848932235,
+        "recall": 0.6336575687185443,
+        "f1-score": 0.651937204396201,
+        "support": 459.0
+      },
+      "weighted avg": {
+        "precision": 0.7160182840907997,
+        "recall": 0.6949891067538126,
+        "f1-score": 0.701923368556333,
+        "support": 459.0
+      }
+    }
+  },
+  "candidates": [
+    {
+      "name": "logistic_C_0.01",
+      "validation_macro_f1": 0.6747363324807641,
+      "validation_accuracy": 0.7391304347826086
+    },
+    {
+      "name": "logistic_C_0.1",
+      "validation_macro_f1": 0.6557785348421968,
+      "validation_accuracy": 0.7326086956521739
+    },
+    {
+      "name": "logistic_C_1.0",
+      "validation_macro_f1": 0.6700483342934568,
+      "validation_accuracy": 0.7260869565217392
+    },
+    {
+      "name": "svm_C_0.3",
+      "validation_macro_f1": 0.6035174276853605,
+      "validation_accuracy": 0.6304347826086957
+    },
+    {
+      "name": "svm_C_1.0",
+      "validation_macro_f1": 0.6884017440722802,
+      "validation_accuracy": 0.7369565217391304
+    }
+  ]
+}

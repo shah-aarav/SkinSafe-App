@@ -1,0 +1,7 @@
+.data/
+samples/
+inference/
+output/
+tests/
+.playwright-cli/
+.voice-tools/
