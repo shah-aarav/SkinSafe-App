@@ -2,7 +2,7 @@ import type { Answers, SpotRecord } from './storage'
 import type { Assessment, User } from './api'
 
 type Sample = { id:string; image:string; code:string; label:string; answers:Answers; createdAt?:string; sha256?:string }
-const user:User = {id:'skinsafe-judge',name:'Aarav',email:'skinsafeapp'}
+let account='skinsafeapp'
 const imageCodes = new WeakMap<Blob,Sample>()
 const hashCodes = new Map<string,Sample>()
 let history:Promise<Sample[]>|undefined
@@ -17,18 +17,21 @@ async function sampleFor(photo:Blob){
   const all=[...await uploadSamples(),...await savedHistory()]
   return hashCodes.get(hash)||all.find(item=>item.sha256===hash)
 }
-export async function judgeCurrentUser():Promise<User|null>{const response=await fetch('/api/login',{credentials:'same-origin'});return (await response.json()).loggedIn?user:null}
+export async function judgeCurrentUser():Promise<User|null>{const response=await fetch('/api/login',{credentials:'same-origin'});const result=await response.json();if(result.loggedIn&&result.user){account=result.user.id;return result.user}return null}
 export async function judgeLogin(username:string,password:string):Promise<User>{
   const response=await fetch('/api/login',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password})})
   const result=await response.json();if(!response.ok)throw new Error(result.error||'Log in failed.')
-  return user
+  account=result.user.id
+  return result.user
 }
 export async function judgeLogout(){await fetch('/api/login',{method:'DELETE',credentials:'same-origin'})}
-function database():Promise<IDBDatabase>{return new Promise((resolve,reject)=>{const request=indexedDB.open('skinsafe-judge-records',1);request.onupgradeneeded=()=>request.result.createObjectStore('records',{keyPath:'id'});request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error)})}
+function databaseName(){return account==='skinsafeapp'?'skinsafe-judge-records':`skinsafe-judge-records-${account}`}
+function hiddenKey(){return account==='skinsafeapp'?'skinsafe-hidden-records':`skinsafe-hidden-records-${account}`}
+function database():Promise<IDBDatabase>{return new Promise((resolve,reject)=>{const request=indexedDB.open(databaseName(),1);request.onupgradeneeded=()=>request.result.createObjectStore('records',{keyPath:'id'});request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error)})}
 async function localRecords():Promise<SpotRecord[]>{const db=await database();return new Promise((resolve,reject)=>{const request=db.transaction('records').objectStore('records').getAll();request.onsuccess=()=>{db.close();resolve(request.result)};request.onerror=()=>{db.close();reject(request.error)}})}
 export async function judgeReadRecords():Promise<SpotRecord[]>{
   const [seeds,local]=await Promise.all([savedHistory(),localRecords()])
-  const hidden=new Set(JSON.parse(localStorage.getItem('skinsafe-hidden-records')||'[]') as string[])
+  const hidden=new Set(JSON.parse(localStorage.getItem(hiddenKey())||'[]') as string[])
   const records=await Promise.all(seeds.filter(item=>!hidden.has(item.id)).map(async item=>{
     const response=await fetch(item.image);if(!response.ok)throw new Error('Saved images are unavailable.')
     const photo=await response.blob();imageCodes.set(photo,item);hashCodes.set(await digest(photo),item)
@@ -37,7 +40,7 @@ export async function judgeReadRecords():Promise<SpotRecord[]>{
   return [...local,...records].sort((a,b)=>b.createdAt.localeCompare(a.createdAt))
 }
 export async function judgeWriteRecord(record:SpotRecord){const db=await database();return new Promise<void>((resolve,reject)=>{const tx=db.transaction('records','readwrite');tx.objectStore('records').put(record);tx.oncomplete=()=>{db.close();resolve()};tx.onerror=()=>{db.close();reject(tx.error)}})}
-export async function judgeDeleteRecord(id:string){const db=await database();await new Promise<void>((resolve,reject)=>{const tx=db.transaction('records','readwrite');tx.objectStore('records').delete(id);tx.oncomplete=()=>{db.close();resolve()};tx.onerror=()=>{db.close();reject(tx.error)}});const hidden=new Set(JSON.parse(localStorage.getItem('skinsafe-hidden-records')||'[]') as string[]);hidden.add(id);localStorage.setItem('skinsafe-hidden-records',JSON.stringify([...hidden]))}
+export async function judgeDeleteRecord(id:string){const db=await database();await new Promise<void>((resolve,reject)=>{const tx=db.transaction('records','readwrite');tx.objectStore('records').delete(id);tx.oncomplete=()=>{db.close();resolve()};tx.onerror=()=>{db.close();reject(tx.error)}});const hidden=new Set(JSON.parse(localStorage.getItem(hiddenKey())||'[]') as string[]);hidden.add(id);localStorage.setItem(hiddenKey(),JSON.stringify([...hidden]))}
 export async function judgeAssess(photo:Blob,_answers:Answers):Promise<Assessment>{
   const sample=await sampleFor(photo)
   if(sample)return {flagged:['BCC','SCC','MEL','ACK'].includes(sample.code),modelVersion:'PAD-UFES-20 research record',referenceImage:{code:sample.code,label:sample.label}}

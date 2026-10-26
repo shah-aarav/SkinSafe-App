@@ -55,3 +55,15 @@ test('comparison and monitoring questions do not receive a one-condition definit
   assert.match(preparedJudgeAnswer('What if a mole starts bleeding?', 'NEV'),/dermatologist examination/i)
   assert.match(preparedJudgeAnswer('Does BCC always need Mohs surgery?', 'BCC'),/^No\. Mohs surgery is one treatment option/i)
 })
+
+test('first-time user questions describe actual app behavior',()=>{
+  assert.match(preparedJudgeAnswer('How accurate are you for dark skin?', 'MEL'),/not been evaluated.*different skin tones/i)
+  assert.match(preparedJudgeAnswer('Are my photos shared with other users?', 'NEV'),/kept in this browser/i)
+  assert.match(preparedJudgeAnswer('Can you compare this with my older photo?', 'SEK'),/does not automatically compare/i)
+  assert.match(preparedJudgeAnswer('What did you see in my photo?', 'SCC'),/does not inspect your photo/i)
+  assert.match(preparedJudgeAnswer('Can you book an appointment for me?', 'SCC'),/cannot book/i)
+  assert.match(preparedJudgeAnswer('Do you have my medical history?', 'BCC'),/not your complete medical history/i)
+  assert.match(preparedJudgeAnswer('Can I send this result to my dermatologist?', 'MEL'),/Download notes/i)
+  assert.match(preparedJudgeAnswer('Can I take a photo and watch it for a month?', 'MEL'),/Do not rely on a month/i)
+  assert.match(preparedJudgeAnswer('My spot is bleeding today. What should I do?', 'SCC'),/dermatologist examination/i)
+})

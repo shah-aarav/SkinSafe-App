@@ -5,10 +5,11 @@ SkinSafe is a mobile-friendly skin-record web app. It lets users sign in, keep d
 ## Try the app
 
 - Website: https://skinsafe-cac.vercel.app/
-- Sample account: `skinsafeapp` / `skinsafe`
+- Judges' account: `skinsafe2026` / `skinsafe2026`
+- Original sample account: `skinsafeapp` / `skinsafe`
 - Upload photos and their matching questionnaire answers: [`assets/judge-uploads/`](assets/judge-uploads/) and [`JUDGE_GUIDE.md`](JUDGE_GUIDE.md)
 
-The sample account has saved research-image records. Its new records are stored in that browser, not synchronized between devices. The hosted image check recognizes the three supplied research photos, including ordinary iPhone-style recompression; it does not classify arbitrary uploads. The recorded condition names for those photos come from the dataset, not from the six-class research model. Typed answers use server-side Groq inference, with reviewed answers for common questions. Natural-voice playback uses a separate server-side speech model and is subject to service limits.
+Both accounts start with the same 25 saved research-image records. New records are stored separately for each account in that browser, not synchronized between devices. The hosted image check recognizes the three supplied research photos, including ordinary iPhone-style recompression; it does not classify arbitrary uploads. The recorded condition names for those photos come from the dataset, not from the six-class research model. Typed answers use server-side Groq inference, with reviewed answers for common questions. Natural-voice playback uses a separate server-side speech model and is subject to service limits.
 
 ## Codebase
 
