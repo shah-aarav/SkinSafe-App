@@ -27,12 +27,14 @@ export default function Entry({ onAuth }: { onAuth: (user: User) => void }) {
   const [mode, setMode] = useState<'welcome' | 'signup' | 'login' | 'email-login' | 'reset'>(judgeMode?'login':'welcome')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const emailLogin = judgeMode && emailAuth && mode === 'login' && email.includes('@')
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   async function submit(event: FormEvent) {
     event.preventDefault()
+    if (emailLogin) { changeMode('email-login'); return }
     if (mode === 'signup' && password !== confirm) { setError('Passwords do not match.'); return }
     setBusy(true); setError('')
     try { onAuth(mode === 'signup' ? await register(name.trim(),email.trim(),password) : await login(email.trim(),password)) }
@@ -54,14 +56,14 @@ export default function Entry({ onAuth }: { onAuth: (user: User) => void }) {
           <button className="back" onClick={()=>changeMode(judgeMode?'login':'welcome')}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg>Back</button>
           <h1 id="entry-title">{mode==='signup'?'Create your account.':mode==='reset'?'Reset your password.':'Welcome back.'}</h1>
           <p className="entry-description">{mode==='signup'?'Keep your skin records under one account.':mode==='reset'?'We’ll email you a six-digit code.':'Log in to your records.'}</p>
-          {judgeMode&&emailAuth&&mode==='signup'?<div className="clerk-embed"><SignUp routing="hash" fallbackRedirectUrl="/"/></div>:judgeMode&&emailAuth&&mode==='email-login'?<div className="clerk-embed"><SignIn routing="hash" fallbackRedirectUrl="/"/></div>:judgeMode&&emailAuth&&mode==='reset'?<ResetPassword/>:<form className="account-form" onSubmit={submit}>
+          {judgeMode&&emailAuth&&mode==='signup'?<div className="clerk-embed"><SignUp routing="hash" fallbackRedirectUrl="/"/></div>:judgeMode&&emailAuth&&mode==='email-login'?<div className="clerk-embed"><SignIn routing="hash" initialValues={{ emailAddress: email.trim() }} fallbackRedirectUrl="/"/></div>:judgeMode&&emailAuth&&mode==='reset'?<ResetPassword/>:<form className="account-form" onSubmit={submit}>
             {mode==='signup'&&<label className="field">Your name<input autoComplete="name" maxLength={60} value={name} onChange={e=>setName(e.target.value)} placeholder="Name" required autoFocus/></label>}
-            <label className="field">{mode==='login'?'Username':'Email'}<input type={mode==='login'?'text':'email'} autoComplete="username" maxLength={254} value={email} onChange={e=>setEmail(e.target.value)} placeholder={mode==='login'?'Username':'you@example.com'} required autoFocus={mode==='login'}/></label>
-            <label className="field">Password<input type="password" autoComplete={mode==='signup'?'new-password':'current-password'} minLength={mode==='signup'?12:undefined} maxLength={128} value={password} onChange={e=>setPassword(e.target.value)} placeholder={mode==='signup'?'At least 12 characters':'Password'} required/></label>
+            <label className="field">{mode==='login'?'Email or username':'Email'}<input type={mode==='login'?'text':'email'} autoComplete="username" maxLength={254} value={email} onChange={e=>setEmail(e.target.value)} placeholder={mode==='login'?'Email or username':'you@example.com'} required autoFocus={mode==='login'}/></label>
+            {!emailLogin&&<label className="field">Password<input type="password" autoComplete={mode==='signup'?'new-password':'current-password'} minLength={mode==='signup'?12:undefined} maxLength={128} value={password} onChange={e=>setPassword(e.target.value)} placeholder={mode==='signup'?'At least 12 characters':'Password'} required/></label>}
             {mode==='signup'&&<label className="field">Confirm password<input type="password" autoComplete="new-password" minLength={12} maxLength={128} value={confirm} onChange={e=>setConfirm(e.target.value)} placeholder="Repeat password" aria-invalid={error==='Passwords do not match.'} aria-describedby={error==='Passwords do not match.'?'account-error':undefined} required/></label>}
-            <button className="primary" disabled={busy}>{busy?'Please wait…':mode==='signup'?'Create account':'Log in'}<Arrow/></button>
+            <button className="primary" disabled={busy}>{busy?'Please wait…':mode==='signup'?'Create account':emailLogin?'Continue with email':'Log in'}<Arrow/></button>
           </form>}
-          {judgeMode&&emailAuth&&mode==='login'&&<div className="entry-auth-links"><button className="account-switch" onClick={()=>changeMode('email-login')}>Log in with email</button><button className="account-switch" onClick={()=>changeMode('reset')}>Forgot your password?</button><button className="account-switch" onClick={()=>changeMode('signup')}>Create an account</button></div>}
+          {judgeMode&&emailAuth&&mode==='login'&&<div className="entry-auth-links"><button className="account-switch" onClick={()=>changeMode('reset')}>Forgot your password?</button><button className="account-switch" onClick={()=>changeMode('signup')}>Create an account</button></div>}
           {error&&<p id="account-error" className="feedback error" role="alert">{error}</p>}
           {judgeMode&&emailAuth&&(mode==='signup'||mode==='email-login')&&<button className="account-switch" onClick={()=>changeMode(mode==='signup'?'email-login':'signup')}>{mode==='signup'?'Already have an account? Log in':'New here? Create an account'}</button>}
           {!judgeMode&&<button className="account-switch" onClick={()=>changeMode(mode==='signup'?'login':'signup')}>{mode==='signup'?'Already have an account? Log in':'New here? Create an account'}</button>}

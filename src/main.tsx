@@ -12,4 +12,12 @@ function ConnectedApp(){
   return <App clerkAccount={account} clerkReady={isLoaded} signOutClerk={()=>clerk.signOut()}/>
 }
 ReactDOM.createRoot(document.getElementById('root')!).render(<React.StrictMode>{clerkKey?<ClerkProvider publishableKey={clerkKey} proxyUrl={`${window.location.origin}/__clerk`} appearance={{variables:{colorPrimary:'#d7bda9',colorPrimaryForeground:'#28201b',colorBackground:'#202020',colorForeground:'#f2efeb',colorMutedForeground:'#aaa6a2',colorInput:'#202020',colorInputForeground:'#f2efeb',colorBorder:'#514b46',borderRadius:'10px'}}}><ConnectedApp/></ClerkProvider>:<App clerkReady/>}</React.StrictMode>)
+if (import.meta.env.VITE_JUDGE_PORTAL === '1') {
+  try {
+    if (!sessionStorage.getItem('skinsafe-visit-sent')) {
+      sessionStorage.setItem('skinsafe-visit-sent', '1')
+      fetch('/api/visit', { method: 'POST', credentials: 'same-origin', keepalive: true }).catch(() => {})
+    }
+  } catch { /* Private browsing can disable session storage. */ }
+}
 if ('serviceWorker' in navigator) window.addEventListener('load', () => { navigator.serviceWorker.getRegistrations().then(registrations=>registrations.forEach(registration=>registration.unregister())).catch(()=>{}) })

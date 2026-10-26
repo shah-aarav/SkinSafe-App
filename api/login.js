@@ -1,4 +1,5 @@
 import { clearSessionCookie, judgeUser, sessionCookie, sessionUser } from '../lib/judge-session.js'
+import { sendAlert } from '../lib/alerts.js'
 
 export async function GET(request) {
   const user = sessionUser(request, process.env.GROQ_API_KEY)
@@ -16,6 +17,7 @@ export async function POST(request) {
     return Response.json({ error: 'Username or password is incorrect.' }, { status: 401 })
   }
   if (!process.env.GROQ_API_KEY) return Response.json({ error: 'Sign-in is unavailable right now.' }, { status: 503 })
+  if (username === 'skinsafe2026') await sendAlert('SkinSafe judge account signed in')
   return Response.json({ loggedIn: true, user: judgeUser(username) }, { headers: { 'Set-Cookie': sessionCookie(username,process.env.GROQ_API_KEY), 'Cache-Control': 'no-store' } })
 }
 
