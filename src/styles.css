@@ -188,6 +188,10 @@ p{font-size:16px}
 .voice-response{border-top:0;margin-top:18px;background:#242322;border-radius:12px;padding:16px}
 .voice-response p{line-height:1.55}
 .voice-response .text-button{margin-top:10px}
+.voice-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:10px}
+.voice-actions .text-button{margin-top:0;min-height:44px}
+.voice-guide .voice-choice{display:flex;align-items:center;gap:8px;margin:0;color:var(--muted);font-size:13px;font-weight:500}
+.voice-choice select{max-width:160px;min-height:44px;border:1px solid #716a64;border-radius:8px;background:var(--surface);color:var(--text);padding:0 9px;font:inherit}
 .assessment{padding:24px 0}
 .assessment h2{font-size:22px;margin-bottom:7px}
 .assessment .result-flag{display:inline-flex;align-items:center;min-height:36px;padding:6px 12px;background:#2e2823;border:1px solid #716356;border-radius:8px;color:var(--accent);font-size:14px;font-weight:600;margin-top:3px}

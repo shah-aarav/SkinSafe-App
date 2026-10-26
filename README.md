@@ -9,14 +9,14 @@ SkinSafe is a mobile-friendly skin-record web app. It lets users sign in, keep d
 - Original sample account: `skinsafeapp` / `skinsafe`
 - Upload photos and their matching questionnaire answers: [`assets/judge-uploads/`](assets/judge-uploads/) and [`JUDGE_GUIDE.md`](JUDGE_GUIDE.md)
 
-Both accounts start with the same 25 saved research-image records. New records are stored separately for each account in that browser, not synchronized between devices. The hosted image check recognizes the three supplied research photos, including ordinary iPhone-style recompression; it does not classify arbitrary uploads. The recorded condition names for those photos come from the dataset, not from the six-class research model. Typed answers use server-side Groq inference, with reviewed answers for common questions. Natural-voice playback uses a separate server-side speech model and is subject to service limits.
+Both accounts start with the same 25 saved research-image records. New records are stored separately for each account in that browser, not synchronized between devices. The hosted image check recognizes the three supplied research photos, including ordinary iPhone-style recompression; it does not classify arbitrary uploads. The recorded condition names for those photos come from the dataset, not from the six-class research model. Typed answers use server-side Groq inference, with reviewed answers for common questions. Optional spoken playback uses the device's built-in voices and does not make a speech API request.
 
 ## Codebase
 
 | Area | Files | Purpose |
 | --- | --- | --- |
 | Web UI | `src/`, `public/` | React, TypeScript, Vite; mobile-first screens and assets |
-| Hosted endpoints | `api/`, `lib/` | Sample login, image recognition, questions, speech, clinic search |
+| Hosted endpoints | `api/`, `lib/` | Sample login, image recognition, questions, clinic search |
 | Local prototype | `server.mjs`, `inference/` | Node.js, SQLite, Python assessment pipeline |
 | Model research | `model/` | Python/PyTorch training and evaluation scripts, model card |
 | Research samples | `samples/`, `assets/judge-uploads/`, `public/judge/` | Attribution, three upload files, sample saved records |
