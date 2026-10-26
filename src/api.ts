@@ -30,6 +30,7 @@ async function request<T>(path:string, method='GET', data?:unknown):Promise<T> {
   return result as T
 }
 export async function currentUser(){ if(judgeMode)return judge.judgeCurrentUser();return (await request<{user:User|null}>('/api/me')).user }
+export function activateAccount(user:User){if(judgeMode)judge.judgeSetAccount(user.id)}
 export async function register(name:string,email:string,password:string){if(judgeMode)throw new Error('Use the provided account to log in.'); return (await request<{user:User}>('/api/register','POST',{name,email,password})).user }
 export async function login(email:string,password:string){if(judgeMode)return judge.judgeLogin(email,password); return (await request<{user:User}>('/api/login','POST',{email,password})).user }
 export async function logout(){if(judgeMode)return judge.judgeLogout(); await request('/api/logout','POST') }

@@ -1,4 +1,4 @@
-import { hasSession } from '../lib/judge-session.js'
+import { hasAppSession } from '../lib/app-auth.js'
 import { preparedJudgeAnswer } from '../lib/judge-answers.js'
 
 const GATEWAY_MODEL = 'nvidia/nemotron-3.5-lightning-free'
@@ -12,7 +12,7 @@ const LABELS = {
 export async function POST(request) {
   const origin = request.headers.get('origin')
   if (origin && origin !== new URL(request.url).origin) return Response.json({error:'Request origin was not accepted.'},{status:403})
-  if (!hasSession(request, process.env.GROQ_API_KEY)) return Response.json({error:'Please log in again to ask a question.'},{status:401})
+  if (!await hasAppSession(request)) return Response.json({error:'Please log in again to ask a question.'},{status:401})
   if (Number(request.headers.get('content-length')||0)>2000) return Response.json({error:'Question is too long.'},{status:413})
   let input
   try { input = await request.json() } catch { return Response.json({error:'Enter a question.'},{status:400}) }

@@ -1,10 +1,10 @@
-import { hasSession } from '../lib/judge-session.js'
+import { hasAppSession } from '../lib/app-auth.js'
 import { knownSampleFor } from '../known-samples.mjs'
 
 export async function POST(request){
   const origin=request.headers.get('origin')
   if(origin&&origin!==new URL(request.url).origin)return Response.json({error:'Request origin was not accepted.'},{status:403})
-  if(!hasSession(request,process.env.GROQ_API_KEY))return Response.json({error:'Please log in again.'},{status:401})
+  if(!await hasAppSession(request))return Response.json({error:'Please log in again.'},{status:401})
   if(Number(request.headers.get('content-length')||0)>6_000_000)return Response.json({error:'Photo is too large.'},{status:413})
   let input
   try{input=await request.json()}catch{return Response.json({error:'Choose a photo.'},{status:400})}

@@ -3,6 +3,7 @@ import type { Assessment, User } from './api'
 
 type Sample = { id:string; image:string; code:string; label:string; answers:Answers; createdAt?:string; sha256?:string }
 let account='skinsafeapp'
+export function judgeSetAccount(id:string){account=id}
 const imageCodes = new WeakMap<Blob,Sample>()
 const hashCodes = new Map<string,Sample>()
 let history:Promise<Sample[]>|undefined
@@ -30,7 +31,7 @@ function hiddenKey(){return account==='skinsafeapp'?'skinsafe-hidden-records':`s
 function database():Promise<IDBDatabase>{return new Promise((resolve,reject)=>{const request=indexedDB.open(databaseName(),1);request.onupgradeneeded=()=>request.result.createObjectStore('records',{keyPath:'id'});request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error)})}
 async function localRecords():Promise<SpotRecord[]>{const db=await database();return new Promise((resolve,reject)=>{const request=db.transaction('records').objectStore('records').getAll();request.onsuccess=()=>{db.close();resolve(request.result)};request.onerror=()=>{db.close();reject(request.error)}})}
 export async function judgeReadRecords():Promise<SpotRecord[]>{
-  const [seeds,local]=await Promise.all([savedHistory(),localRecords()])
+  const [seeds,local]=await Promise.all([account==='skinsafeapp'||account==='skinsafe2026'?savedHistory():Promise.resolve([]),localRecords()])
   const hidden=new Set(JSON.parse(localStorage.getItem(hiddenKey())||'[]') as string[])
   const records=await Promise.all(seeds.filter(item=>!hidden.has(item.id)).map(async item=>{
     const response=await fetch(item.image);if(!response.ok)throw new Error('Saved images are unavailable.')

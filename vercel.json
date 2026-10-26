@@ -3,6 +3,9 @@
   "buildCommand": "npm run build:judge",
   "outputDirectory": "dist",
   "framework": "vite",
+  "rewrites": [
+    { "source": "/__clerk/:path*", "destination": "/api/clerk-proxy?path=:path*" }
+  ],
   "functions": {
     "api/assess.js": {
       "includeFiles": "assets/judge-uploads/**"

@@ -14,6 +14,8 @@
     "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
+    "@clerk/backend": "^3.26.2",
+    "@clerk/react": "^6.18.1",
     "@fontsource/manrope": "^5.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"

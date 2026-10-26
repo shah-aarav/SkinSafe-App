@@ -67,6 +67,13 @@ input::placeholder{color:#aaa6a2}
 .account-form .primary{margin-top:8px}
 .account-switch{display:block;width:100%;min-height:44px;margin-top:18px;padding:8px 0;border:0;background:transparent;color:var(--accent);font-size:13px;text-decoration:underline;text-underline-offset:4px}
 .account-switch:hover{color:var(--text)}
+.entry-auth-links{display:flex;flex-wrap:wrap;align-items:center;gap:4px 18px;margin-top:12px}
+.entry-auth-links .account-switch{width:auto;margin-top:0;text-align:left}
+.clerk-embed{max-width:385px;margin-top:-12px}
+.clerk-embed .cl-rootBox,.clerk-embed .cl-cardBox,.clerk-embed .cl-card{width:100%;max-width:100%;box-shadow:none}
+.clerk-embed .cl-header,.clerk-embed .cl-footerAction{display:none}
+.entry-footer a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;max-width:55ch}
+.reset-instruction{margin:0 0 18px;font-size:14px}
 .entry-loading{flex:1;display:grid;place-items:center;color:var(--muted);font-size:14px}
 .profile-preview{display:flex;align-items:center;gap:14px;margin:0 0 26px;min-width:0}
 .profile-preview strong{font-size:17px;overflow-wrap:anywhere}
