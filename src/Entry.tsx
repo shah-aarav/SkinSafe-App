@@ -24,7 +24,9 @@ export function SpotGraphic({ compact = false }: { compact?: boolean }) {
 export default function Entry({ onAuth }: { onAuth: (user: User) => void }) {
   const judgeMode=import.meta.env.VITE_JUDGE_PORTAL==='1'
   const emailAuth=Boolean(import.meta.env.VITE_CLERK_PUBLISHABLE_KEY)
-  const [mode, setMode] = useState<'welcome' | 'signup' | 'login' | 'email-login' | 'reset'>(judgeMode?'login':'welcome')
+  type Mode = 'welcome' | 'signup' | 'login' | 'email-login' | 'reset'
+  const [mode, setMode] = useState<Mode>(judgeMode?'login':'welcome')
+  const [modeHistory, setModeHistory] = useState<Mode[]>(judgeMode?['welcome']:[])
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const emailLogin = judgeMode && emailAuth && mode === 'login' && email.includes('@')
@@ -41,19 +43,20 @@ export default function Entry({ onAuth }: { onAuth: (user: User) => void }) {
     catch (cause) { setError(cause instanceof Error ? cause.message : 'Please try again.') }
     finally { setBusy(false) }
   }
-  const changeMode = (next: typeof mode) => { setError(''); setPassword(''); setConfirm(''); setMode(next) }
+  const changeMode = (next: Mode) => { if(next===mode)return;setError(''); setPassword(''); setConfirm(''); setModeHistory(previous=>[...previous,mode]); setMode(next) }
+  const goBack = () => { const previous=modeHistory.at(-1)??'welcome';setModeHistory(history=>history.slice(0,-1));setError('');setPassword('');setConfirm('');setMode(previous) }
+  const goWelcome = () => { setModeHistory([]);setError('');setPassword('');setConfirm('');setMode('welcome') }
   return <div className="entry-shell">
     <a className="skip-link" href="#main-content">Skip to content</a>
-    <header className="entry-header"><a className="brand" href="#" onClick={e=>{e.preventDefault();changeMode('welcome')}}><span className="brand-symbol"/>SkinSafe</a><span className="device-label">Your skin. Your record.</span></header>
+    <header className="entry-header"><a className="brand" href="#" onClick={e=>{e.preventDefault();goWelcome()}}><span className="brand-symbol"/>SkinSafe</a><span className="device-label">Your skin. Your record.</span></header>
     <main id="main-content" className="entry-layout">
       <section className="entry-art"><SpotGraphic/><div className="art-caption"><span className="caption-line"/><p>A closer look starts here.</p></div></section>
       <section className="entry-content" aria-labelledby="entry-title">
         {mode==='welcome'?<>
-          <h1 id="entry-title">A little attention.<br/><span>A clearer record.</span></h1>
-          <p className="entry-description">Keep a photo and a few details about your skin, all in one place.</p>
+          <h1 id="entry-title">Welcome to SkinSafe</h1>
           <div className="entry-actions"><button className="primary" onClick={()=>changeMode('signup')}>Create account<Arrow/></button><button className="secondary" onClick={()=>changeMode('login')}>Log in</button></div>
         </>:<>
-          <button className="back" onClick={()=>changeMode(judgeMode?'login':'welcome')}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg>Back</button>
+          <button className="back" onClick={goBack}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg>Back</button>
           <h1 id="entry-title">{mode==='signup'?'Create your account.':mode==='reset'?'Reset your password.':'Welcome back.'}</h1>
           <p className="entry-description">{mode==='signup'?'Keep your skin records under one account.':mode==='reset'?'We’ll email you a six-digit code.':'Log in to your records.'}</p>
           {judgeMode&&emailAuth&&mode==='signup'?<div className="clerk-embed"><SignUp routing="hash" fallbackRedirectUrl="/"/></div>:judgeMode&&emailAuth&&mode==='email-login'?<div className="clerk-embed"><SignIn routing="hash" initialValues={{ emailAddress: email.trim() }} fallbackRedirectUrl="/"/></div>:judgeMode&&emailAuth&&mode==='reset'?<ResetPassword/>:<form className="account-form" onSubmit={submit}>
